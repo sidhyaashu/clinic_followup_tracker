@@ -1,0 +1,40 @@
+<h2>Dashboard</h2>
+
+<p>Total: {{ total }} | Pending: {{ pending }} | Done: {{ done }}</p>
+
+<a href="{% url 'followup_create' %}">Create FollowUp</a>
+
+<table border="1">
+  <tr>
+    <th>Patient</th>
+    <th>Phone</th>
+    <th>Due</th>
+    <th>Status</th>
+    <th>Views</th>
+    <th>Public Link</th>
+    <th>Actions</th>
+  </tr>
+  {% for f in followups %}
+  <tr>
+    <td>{{ f.patient_name }}</td>
+    <td>{{ f.phone }}</td>
+    <td>{{ f.due_date }}</td>
+    <td>{{ f.status }}</td>
+    <td>{{ f.view_count }}</td>
+    <td>
+      <a href="{% url 'public_followup' f.public_token %}" target="_blank">
+        Open
+      </a>
+    </td>
+    <td>
+      <a href="{% url 'followup_edit' f.id %}">Edit</a>
+      {% if f.status == 'pending' %}
+      <form method="post" action="{% url 'followup_done' f.id %}">
+        {% csrf_token %}
+        <button type="submit">Mark Done</button>
+      </form>
+      {% endif %}
+    </td>
+  </tr>
+  {% endfor %}
+</table>

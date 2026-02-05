@@ -4,6 +4,15 @@ A lightweight Django application to manage clinic follow-ups with secure access 
 
 This project demonstrates **production-ready Django fundamentals** including ORM modeling, authentication, authorization, admin customization, management commands, and testing.
 
+
+---
+## 🎥 Demo Video
+
+A short walkthrough showcasing the core features of the **Clinic Follow-up Tracker (Lite)**, including authentication, follow-up management, and CSV import.
+
+▶️ **Watch the demo:**  
+[https://drive.google.com/file/d/1lH2tz-2cLDXj07piUyuZfC3SBOFV6zB4/view](https://drive.google.com/file/d/1lH2tz-2cLDXj07piUyuZfC3SBOFV6zB4/view)
+
 ---
 
 ## 🚀 Features
@@ -289,18 +298,6 @@ erDiagram
 * Auto-generated fields are enforced at the DB level
 * No DRF or external UI frameworks used
 * Focused on correctness, clarity, and core functionality
-
----
-
-## 📽 Proof of Functionality
-
-* Screen recording OR
-* Screenshots:
-
-  * Dashboard
-  * Create/Edit follow-up
-  * Public page
-  * View log in admin
 
 ---
 

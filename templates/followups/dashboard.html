@@ -13,8 +13,7 @@
 
 <a href="{% url 'followup_create' %}">Create FollowUp</a>
 
-<table border="1">
-  <form method="get">
+<form method="get">
   <label>Status:</label>
   <select name="status">
     <option value="">All</option>
@@ -30,6 +29,8 @@
 
   <button type="submit">Filter</button>
 </form>
+
+<table border="1">
 
   <tr>
     <th>Patient</th>

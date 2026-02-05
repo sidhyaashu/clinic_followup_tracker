@@ -1,3 +1,153 @@
+<style>
+  body {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Ubuntu;
+    background: #f5f7fa;
+    padding: 2rem;
+    color: #1f2937;
+  }
+
+  h2 {
+    margin-bottom: 1rem;
+  }
+
+  /* Messages */
+  ul {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 1rem;
+  }
+
+  ul li {
+    background: #ecfeff;
+    color: #0369a1;
+    padding: 0.6rem 0.8rem;
+    border-left: 4px solid #0ea5e9;
+    border-radius: 6px;
+    margin-bottom: 0.5rem;
+  }
+
+  /* Summary */
+  p {
+    background: #ffffff;
+    padding: 1rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    margin-bottom: 1.2rem;
+    font-weight: 500;
+  }
+
+  /* Create button */
+  a[href*="create"] {
+    display: inline-block;
+    margin-bottom: 1rem;
+    padding: 0.6rem 1rem;
+    background: #2563eb;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 600;
+  }
+
+  a[href*="create"]:hover {
+    background: #1d4ed8;
+  }
+
+  /* Filter form */
+  form[method="get"] {
+    background: #ffffff;
+    padding: 1rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    margin-bottom: 1.5rem;
+    display: flex;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  label {
+    font-size: 0.85rem;
+    font-weight: 500;
+  }
+
+  select,
+  input[type="date"] {
+    padding: 0.4rem 0.5rem;
+    border-radius: 6px;
+    border: 1px solid #d1d5db;
+  }
+
+  button {
+    padding: 0.45rem 0.9rem;
+    border-radius: 6px;
+    border: none;
+    background: #10b981;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  button:hover {
+    background: #059669;
+  }
+
+  /* Table */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #ffffff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  }
+
+  th,
+  td {
+    padding: 0.8rem;
+    text-align: left;
+    font-size: 0.9rem;
+  }
+
+  th {
+    background: #f1f5f9;
+    font-weight: 600;
+  }
+
+  tr:not(:last-child) td {
+    border-bottom: 1px solid #e5e7eb;
+  }
+
+  /* Status styling */
+  td:nth-child(4) {
+    font-weight: 600;
+  }
+
+  /* Action buttons */
+  td a {
+    color: #2563eb;
+    text-decoration: none;
+    font-weight: 500;
+    margin-right: 0.5rem;
+  }
+
+  td a:hover {
+    text-decoration: underline;
+  }
+
+  form[action*="done"] {
+    display: inline;
+  }
+
+  form[action*="done"] button {
+    background: #f59e0b;
+    margin-left: 0.4rem;
+  }
+
+  form[action*="done"] button:hover {
+    background: #d97706;
+  }
+</style>
+
 {% if messages %}
   <ul>
     {% for message in messages %}
@@ -5,7 +155,6 @@
     {% endfor %}
   </ul>
 {% endif %}
-
 
 <h2>Dashboard</h2>
 
@@ -30,8 +179,7 @@
   <button type="submit">Filter</button>
 </form>
 
-<table border="1">
-
+<table>
   <tr>
     <th>Patient</th>
     <th>Phone</th>
@@ -41,6 +189,7 @@
     <th>Public Link</th>
     <th>Actions</th>
   </tr>
+
   {% for f in followups %}
   <tr>
     <td>{{ f.patient_name }}</td>
@@ -55,6 +204,7 @@
     </td>
     <td>
       <a href="{% url 'followup_edit' f.id %}">Edit</a>
+
       {% if f.status == 'pending' %}
       <form method="post" action="{% url 'followup_done' f.id %}">
         {% csrf_token %}

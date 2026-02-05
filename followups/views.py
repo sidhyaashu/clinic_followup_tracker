@@ -1,11 +1,12 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.db.models import Count
-from .models import FollowUp, PublicViewLog
+from .models import FollowUp, PublicViewLog, UserProfile
 from django.shortcuts import redirect, get_object_or_404
 from .forms import FollowUpForm
 from django.utils.timezone import now
 from django.contrib import messages
+
 
 
 
@@ -62,7 +63,11 @@ def followup_mark_done(request, pk):
 
 @login_required
 def dashboard(request):
-    clinic = request.user.userprofile.clinic
+    try:
+        clinic = request.user.userprofile.clinic
+    except UserProfile.DoesNotExist:
+        messages.error(request, "No clinic assigned. Contact admin.")
+        return redirect("login")
 
     followups = FollowUp.objects.filter(clinic=clinic)
 

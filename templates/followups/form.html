@@ -1,6 +1,97 @@
-<h2>FollowUp Form</h2>
+<style>
+  body {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Ubuntu;
+    background: linear-gradient(135deg, #f5f7fa, #e4ebf5);
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #1f2937;
+  }
+
+  h2 {
+    text-align: center;
+    margin-bottom: 1.2rem;
+  }
+
+  form {
+    background: #ffffff;
+    padding: 2rem 2.5rem;
+    border-radius: 14px;
+    width: 100%;
+    max-width: 420px;
+    box-shadow: 0 20px 30px rgba(0, 0, 0, 0.08);
+  }
+
+  form p {
+    margin-bottom: 1rem;
+  }
+
+  label {
+    display: block;
+    font-size: 0.9rem;
+    margin-bottom: 0.3rem;
+    font-weight: 500;
+  }
+
+  input,
+  select,
+  textarea {
+    width: 100%;
+    padding: 0.6rem 0.7rem;
+    border-radius: 8px;
+    border: 1px solid #d1d5db;
+    font-size: 0.95rem;
+    transition: border 0.2s, box-shadow 0.2s;
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 80px;
+  }
+
+  input:focus,
+  select:focus,
+  textarea:focus {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+  }
+
+  button {
+    width: 100%;
+    margin-top: 1.2rem;
+    padding: 0.7rem;
+    background: #2563eb;
+    color: white;
+    font-weight: 600;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background 0.2s, transform 0.1s;
+  }
+
+  button:hover {
+    background: #1d4ed8;
+  }
+
+  button:active {
+    transform: translateY(1px);
+  }
+
+  .errorlist {
+    color: #dc2626;
+    font-size: 0.85rem;
+    margin-bottom: 0.5rem;
+    list-style: none;
+    padding-left: 0;
+  }
+</style>
+
 
 <form method="post">
+  <h2>FollowUp Form</h2>
   {% csrf_token %}
   {{ form.as_p }}
   <button type="submit">Save</button>

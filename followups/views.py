@@ -4,6 +4,9 @@ from django.db.models import Count
 from .models import FollowUp, PublicViewLog
 from django.shortcuts import redirect, get_object_or_404
 from .forms import FollowUpForm
+from django.utils.timezone import now
+from django.contrib import messages
+
 
 
 @login_required
@@ -15,6 +18,8 @@ def followup_create(request):
             followup.clinic = request.user.userprofile.clinic
             followup.created_by = request.user
             followup.save()
+            
+            messages.success(request, "Follow-up created successfully.")
             return redirect('dashboard')
     else:
         form = FollowUpForm()
@@ -33,6 +38,8 @@ def followup_edit(request, pk):
         form = FollowUpForm(request.POST, instance=followup)
         if form.is_valid():
             form.save()
+            
+            messages.success(request, "Follow-up updated successfully.")
             return redirect('dashboard')
     else:
         form = FollowUpForm(instance=followup)
@@ -49,27 +56,38 @@ def followup_mark_done(request, pk):
         )
         followup.status = 'done'
         followup.save()
+        
+        messages.success(request, "Follow-up marked as done.")
     return redirect('dashboard')
 
 @login_required
 def dashboard(request):
     clinic = request.user.userprofile.clinic
 
-    followups = FollowUp.objects.filter(
-        clinic=clinic
-    ).annotate(
-        view_count=Count('publicviewlog')
-    )
+    followups = FollowUp.objects.filter(clinic=clinic)
 
-    total = followups.count()
-    pending = followups.filter(status='pending').count()
-    done = followups.filter(status='done').count()
+    status = request.GET.get('status')
+    if status:
+        followups = followups.filter(status=status)
+
+    start_date = request.GET.get('start_date')
+    end_date = request.GET.get('end_date')
+
+    if start_date:
+        followups = followups.filter(due_date__gte=start_date)
+
+    if end_date:
+        followups = followups.filter(due_date__lte=end_date)
+
+    followups = followups.annotate(
+        view_count=Count('views')
+    )
 
     context = {
         'followups': followups,
-        'total': total,
-        'pending': pending,
-        'done': done
+        'total': followups.count(),
+        'pending': followups.filter(status='pending').count(),
+        'done': followups.filter(status='done').count(),
     }
     return render(request, 'followups/dashboard.html', context)
 

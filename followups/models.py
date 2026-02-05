@@ -92,7 +92,11 @@ class FollowUp(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.public_token:
-            self.public_token = secrets.token_urlsafe(12)
+            while True:
+                token = secrets.token_urlsafe(12)
+                if not FollowUp.objects.filter(public_token=token).exists():
+                    self.public_token = token
+                    break
         super().save(*args, **kwargs)
 
     def __str__(self):
